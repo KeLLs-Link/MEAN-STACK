@@ -1,6 +1,8 @@
 # **Objective**
 - **Implementing a simple Book Register web form using MEAN STACK on Ubuntu Server deployed on AWS**
 
+**Goodluck 👍 🥰**
+
 ```
 sudo apt update
 ```
@@ -140,4 +142,4 @@ This command installs MongoDB on an Ubuntu system using the apt package manager.
 
 When you run this command, apt will download and install the MongoDB package along with any dependencies it requires. The -y option ensures that you won't be prompted to confirm the installation, so it will proceed automatically. 
 
-***PS: The -y flag should be passed or used when installing a package from a known source.***
+***PS: The -y flag should be passed or used when installing a package from a known source, in order not to install unknown or unwanted packages.***
