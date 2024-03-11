@@ -253,6 +253,31 @@ module.exports = function(app) {
   });
 };
 ```
-.
+In the ‘apps’ folder, create a folder named models
 
+```
+mkdir models && cd models
+```
+Create a file named book.js
+```
+nano books.js
+```
+Copy and paste the code below into the ‘book.js’ file
+```
+var mongoose = require('mongoose');
+var dbHost = 'mongodb://localhost:27017/test';
+mongoose.connect(dbHost);
+mongoose.connection;
+mongoose.set('debug', true);
+var bookSchema = mongoose.Schema( {
+  name: String,
+  isbn: {type: String, index: true},
+  author: String,
+  pages: Number
+});
+var Book = mongoose.model('Book', bookSchema);
+module.exports = mongoose.model('Book', bookSchema);
+```
+
+- ### Access the routes with AngularJS
 
