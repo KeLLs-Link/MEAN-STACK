@@ -143,3 +143,116 @@ This command installs MongoDB on an Ubuntu system using the apt package manager.
 When you run this command, apt will download and install the MongoDB package along with any dependencies it requires. The -y option ensures that you won't be prompted to confirm the installation, so it will proceed automatically. 
 
 ***PS: The -y flag should be passed or used when installing a package from a known source, in order not to install unknown or unwanted packages.***
+
+- **Install npm- Node package manager**
+
+The Node Package Manager (npm) is the default package manager for Node.js, a JavaScript runtime environment. npm is a command-line tool that allows developers to install, manage, version, script, secure and share JavaScript packages and dependencies for Node.js projects.
+
+```
+sudo apt install -y npm 
+```
+N/B: If you have properly installed Node.js on your system, npm (Node Package Manager) typically comes bundled with it
+
+- **Install body-parser package**
+
+We need ‘body-parser’ package to help us process JSON files passed in requests to the server.
+
+```
+cat package.json | grep body-parser
+```
+The above command will search for the string ***"body-parser"*** in the package.json file. If body-parser is listed as a dependency, it will be displayed in the output.
+
+In the Books directory, Initialize npm project
+```
+npm init
+```
+using your favourite commandline code editor, add a file to it named server.js
+```
+nano server.js
+```
+paste the code bellow
+```
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express();
+app.use(express.static(__dirname + '/public'));
+app.use(bodyParser.json());
+require('./apps/routes')(app);
+app.set('port', 3300);
+app.listen(app.get('port'), function() {
+    console.log('Server up: http://localhost:' + app.get('port'));
+});
+```
+
+
+**INSTALL EXPRESS AND SET UP ROUTES TO THE SERVER**
+
+Install Express and set up routes to the server.
+Express is a minimal and flexible Node.js web application framework that provides features for web and mobile applications. We will use Express to pass book information to and from our MongoDB database.
+We also will use Mongoose package which provides a straightforward, schema-based solution to model your application data. We will use Mongoose to establish a schema for the database to store data of our book register.
+```
+sudo npm install express mongoose
+```
+To check if mongoose and express are present as dependencies in your package.json file, run the following commands
+```
+npm list momgoose
+npm list express
+```
+you can aswell cat your package.json file and check the dependencies session to see if mongoose and express are present.
+```
+cat package.json
+```
+![image](./Images/expressandmongooseinstalled.png)
+
+In ‘Books’ folder, create a folder named apps
+```
+mkdir apps && cd apps
+```
+Create a file named routes.js
+```
+nano routes.js
+```
+paste the code below in the routes.js file
+
+```
+var Book = require('./models/book');
+module.exports = function(app) {
+  app.get('/book', function(req, res) {
+    Book.find({}, function(err, result) {
+      if ( err ) throw err;
+      res.json(result);
+    });
+  }); 
+  app.post('/book', function(req, res) {
+    var book = new Book( {
+      name:req.body.name,
+      isbn:req.body.isbn,
+      author:req.body.author,
+      pages:req.body.pages
+    });
+    book.save(function(err, result) {
+      if ( err ) throw err;
+      res.json( {
+        message:"Successfully added book",
+        book:result
+      });
+    });
+  });
+  app.delete("/book/:isbn", function(req, res) {
+    Book.findOneAndRemove(req.query, function(err, result) {
+      if ( err ) throw err;
+      res.json( {
+        message: "Successfully deleted the book",
+        book: result
+      });
+    });
+  });
+  var path = require('path');
+  app.get('*', function(req, res) {
+    res.sendfile(path.join(__dirname + '/public', 'index.html'));
+  });
+};
+```
+.
+
+
