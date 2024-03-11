@@ -281,3 +281,61 @@ module.exports = mongoose.model('Book', bookSchema);
 
 - ### Access the routes with AngularJS
 
+
+AngularJS is a JavaScript-based open-source front-end web framework developed and maintained by Google. in this project, I use AngularJS to connect the web page with Express and perform actions on our book register.
+Angular is designed to simplify the development of dynamic web applications by providing a structured framework for building interactive and data-driven single-page applications (SPAs).
+
+Change the directory back to Books
+```
+cd../..
+```
+Create a folder named public
+
+```
+mkdir public && cd public
+```
+Add a file named script.js
+```
+nano script.js
+```
+past the code below in the script.js file
+
+```
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+  $http( {
+    method: 'GET',
+    url: '/book'
+  }).then(function successCallback(response) {
+    $scope.books = response.data;
+  }, function errorCallback(response) {
+    console.log('Error: ' + response);
+  });
+  $scope.del_book = function(book) {
+    $http( {
+      method: 'DELETE',
+      url: '/book/:isbn',
+      params: {'isbn': book.isbn}
+    }).then(function successCallback(response) {
+      console.log(response);
+    }, function errorCallback(response) {
+      console.log('Error: ' + response);
+    });
+  };
+  $scope.add_book = function() {
+    var body = '{ "name": "' + $scope.Name + 
+    '", "isbn": "' + $scope.Isbn +
+    '", "author": "' + $scope.Author + 
+    '", "pages": "' + $scope.Pages + '" }';
+    $http({
+      method: 'POST',
+      url: '/book',
+      data: body
+    }).then(function successCallback(response) {
+      console.log(response);
+    }, function errorCallback(response) {
+      console.log('Error: ' + response);
+    });
+  };
+});
+```
