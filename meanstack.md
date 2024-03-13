@@ -1,7 +1,7 @@
 # **Objective**
 - **Implementing a simple Book Register web form using MEAN STACK on Ubuntu Server deployed on AWS**
 
-**Goodluck 👍 🥰**
+**Goodluck 👍**
 
 ```
 sudo apt update
