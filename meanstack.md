@@ -1,8 +1,9 @@
 # **Objective**
-- **Implementing a simple Book Register web form using MEAN STACK on Ubuntu Server deployed on AWS**
+- **Implement a simple Book Register web form using MEAN STACK which is deployed on Ubuntu Server on AWS**
 
 **Goodluck 👍**
 
+After spinning-up your EC2 Instance (Virtual Machine) running Ubuntu OS Server, connect to your instance via your terminal and run the following command.
 ```
 sudo apt update
 ```
@@ -43,7 +44,7 @@ The downloaded script is then piped (|) to bash, a shell interpreter, to be exec
 
 This script adds the NodeSource repository for Node.js to the system's package sources, making it possible to install Node.js version 12.x using apt after this setup.
 
-***In summary, these commands install some prerequisite packages required for package management and then set up the Node.js repository for installing Node.js version 12.x on the Ubuntu system.***
+***In summary, these commands install some prerequisite packages required for package management and then set up the Node.js repository for installing Node.js version 18.x on the Ubuntu system.***
 
 ![image](./Images/repositoryconfig.png)
 
@@ -402,6 +403,7 @@ Copy and paste the code below into index.html file.
 </html>
 ```
 Change the directory back up to Books
+
 Start the server by running this command:
 ```
 node server.js
