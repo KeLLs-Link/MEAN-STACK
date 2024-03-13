@@ -16,6 +16,8 @@ SSL/TLS certificates play a critical role in ensuring the security, authenticati
 
 ```
 sudo apt -y install curl dirmngr apt-transport-https lsb-release ca-certificates
+
+  curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 ```
 ***curl:*** A command-line tool for transferring data using various network protocols.
 
@@ -66,9 +68,12 @@ MongoDB stores data in flexible, JSON-like documents. Fields in a database can v
 Run the following command:
 ```
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
-echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 ```
-***N/B: If you are using Ubuntu 22.04 the above script wont work, while MongoDB 4.4 does not natively support Ubuntu 22.04, there is a workaround that allows you to run it on your server. Follow the steps below:***
+This will allow you to install the latest MongoDB version compatible with Ubuntu 20.04. Remember to update your system’s package cache after making these changes:
+
+
+***N/B: If you are using Ubuntu 22.04 the above script wont work, while MongoDB 4.4 does not natively support Ubuntu 22.04, there is a workaround that allows you to run it on your server.
 
 Install the Required Dependency: First, install libssl1.1, which is needed by MongoDB. Since there’s no direct install candidate for Ubuntu 22.04, we’ll add the package from the Ubuntu 20.04 repository:
 
@@ -339,3 +344,77 @@ app.controller('myCtrl', function($scope, $http) {
   };
 });
 ```
+In the public folder, create a file named index.html;
+```
+nano index.html
+```
+Copy and paste the code below into index.html file.
+```
+<!doctype html>
+<html ng-app="myApp" ng-controller="myCtrl">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div>
+      <table>
+        <tr>
+          <td>Name:</td>
+          <td><input type="text" ng-model="Name"></td>
+        </tr>
+        <tr>
+          <td>Isbn:</td>
+          <td><input type="text" ng-model="Isbn"></td>
+        </tr>
+        <tr>
+          <td>Author:</td>
+          <td><input type="text" ng-model="Author"></td>
+        </tr>
+        <tr>
+          <td>Pages:</td>
+          <td><input type="number" ng-model="Pages"></td>
+        </tr>
+      </table>
+      <button ng-click="add_book()">Add</button>
+    </div>
+    <hr>
+    <div>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Isbn</th>
+          <th>Author</th>
+          <th>Pages</th>
+ 
+        </tr>
+        <tr ng-repeat="book in books">
+          <td>{{book.name}}</td>
+          <td>{{book.isbn}}</td>
+          <td>{{book.author}}</td>
+          <td>{{book.pages}}</td>
+ 
+          <td><input type="button" value="Delete" data-ng-click="del_book(book)"></td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
+```
+Change the directory back up to Books
+Start the server by running this command:
+```
+node server.js
+```
+The server is now up and running, we can connect it via port 3300. You can launch a separate Putty or SSH console to test what the curl command returns locally.
+```
+curl -s http://localhost:3300
+```
+It shall return an HTML page, it is hardly readable in the CLI, but we can also try and access it from the Internet.
+For this – you need to open TCP port 3300 in your AWS Web Console for your EC2 Instance.
+
+![image](./Images/done.png)
+
+**Congratulations 🥇 👍 💯**
+
+
